@@ -1,0 +1,14 @@
+Phần 1: Phân tích lỗi tư duy của An
+Sự nhầm lẫn của An: An đã nhầm lẫn giữa "Tìm tên/vị trí tệp tin" và "Tìm nội dung bên trong tệp tin".
+Giải thích sự khác biệt:
+Get-ChildItem (tương đương dir trong CMD hay ls trong Bash): Dùng để liệt kê hoặc tìm kiếm tên tệp và thư mục. Tham số -Filter "*404*" yêu cầu PowerShell tìm các tệp có tên chứa chuỗi "404". Do tệp của An mang tên access.log chứ không chứa chữ "404" trong tên tệp, lệnh này trả về kết quả trống.
+Select-String (tương đương grep trong Linux hoặc findstr trong Windows CMD): Dùng để tìm kiếm nội dung văn bản bên trong tệp.
+Phần 2: Hoàn thiện câu lệnh PowerShell
+Để lọc từ khóa error (không phân biệt hoa/thường như ERROR, Error, error) bên trong tệp access.log và hiển thị kèm số thứ tự dòng, bạn sử dụng câu lệnh ngắn gọn sau trên PowerShell:
+PowerShell
+Select-String -Path "access.log" -Pattern "error"
+Giải thích chi tiết:
+Select-String: Lệnh chuyên dụng để tìm kiếm văn bản trong tệp.
+-Path "access.log": Chỉ định tệp cần quét nội dung.
+-Pattern "error": Từ khóa cần tìm.
+Đặc tính mặc định của PowerShell: Select-String tự động không phân biệt chữ hoa/thường và luôn in kèm tên tệp, số thứ tự dòng cùng nội dung dòng khớp mà không cần thêm các cờ phức tạp như -i hay -n.
